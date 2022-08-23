@@ -20,7 +20,7 @@ https://user-images.githubusercontent.com/59060246/128050994-17f46934-6604-4430-
 
 # Requirements
 
-- dash (shell)
+- sh (shell)
 - imlib2 
 - xsetroot package (status2d uses this to add colors on dwmbar)
 - JetbrainsMono Nerd Font or any nerd font but dont forget to set it in config.def.h
@@ -36,7 +36,7 @@ https://user-images.githubusercontent.com/59060246/128050994-17f46934-6604-4430-
 # Install
 
 ```
-git clone https://github.com/siduck/chadwm --depth 1  ~/.config
+git clone https://github.com/teaper/chadwm --depth 1  ~/.config
 cd ~/.config/chadwm/
 mv eww ~/.config
 sudo make install

@@ -2,78 +2,79 @@
 
 #include <X11/XF86keysym.h>
 
-/* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
-static const unsigned int default_border = 0;   /* to switch back to default border after dynamic border resizing via keybinds */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
-static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const int systraypinningfailfirst = 1;   /* 1: if pinning fails,display systray on the 1st monitor,False: display systray on last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
-static const int showbar            = 1;        /* 0 means no bar */
+/* 外观 */
+static const unsigned int borderpx  = 0;        /* 窗口的边框像素 */
+static const unsigned int default_border = 0;   /* 通过快捷键动态调整边框大小后切会默认边框大小 */
+static const unsigned int snap      = 32;       /* 快照像素 */
+static const unsigned int gappih    = 10;       /* 窗口之间的水平内部间隙 */
+static const unsigned int gappiv    = 10;       /* 垂直窗口之间的内部间隙 */
+static const unsigned int gappoh    = 10;       /* 窗口和屏幕边缘之间的水平外部间隙 */
+static const unsigned int gappov    = 10;       /* 垂直窗口和屏幕边缘之间的外部间隙 */
+static const int smartgaps          = 0;        /* 1: 表示一个窗口时没有外部间隙 */
+static const unsigned int systraypinning = 0;   /* 0: sloppy 系统托盘跟随选定的显示器, >0: 固定系统托盘并监控 X11 */
+static const unsigned int systrayspacing = 2;   /* 系统托盘间隙 */
+static const int systraypinningfailfirst = 1;   /* 1: 如果固定失败，在第一台显示器上显示系统托盘,否则:在最后一个显示器上显示系统托盘 */
+static const int showsystray        = 1;        /* 0 表示没有系统托盘 */
+static const int showbar            = 1;        /* 0 表示没有 barner */
 static const int showtab            = showtab_auto;
-static const int toptab             = 1;        /* 0 means bottom tab */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static const int toptab             = 1;        /* 0 表示顶栏 */
+static const int topbar             = 1;        /* 0 表示底栏 */
 static const int horizpadbar        = 5;
 static const int vertpadbar         = 11;
 static const int vertpadtab         = 35;
 static const int horizpadtabi       = 15;
 static const int horizpadtabo       = 15;
 static const int scalepreview       = 4;
-static const int tag_preview        = 0;        /* 1 means enable, 0 is off */
-static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
+static const int tag_preview        = 0;        /* 1 启用, 0 关闭 */
+static const int colorfultag        = 1;        /* 0 表示对选定的非空标签使用方案 */
 
-#define ICONSIZE 19   /* icon size */
-#define ICONSPACING 8 /* space between icon and title */
+#define ICONSIZE 19   /* 图标大小 */
+#define ICONSPACING 8 /* 图标和标题之间的空白 */
 
-static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font:style:medium:size=11",
-                                        "Material Design Icons Desktop:size=11" };
+// 提示：yay -S nerd-fonts-jetbrains-mono nerd-fonts-ubuntu-mono ttf-material-design-icons-desktop-git
+static const char *fonts[]          = {"Iosevka:style:medium:size=11" ,"JetBrainsMono Nerd Font:style:medium:size=11",
+                                        "Material Design Icons Desktop:size=11", "Ubuntu Nerd Font Mono:size=11" };
 
-// theme
+// 主题
 #include "themes/onedark.h"
 
 static const char *colors[][3]      = {
-    /*                     fg       bg      border */
+    /*                     字色     背景色  边框 */
     [SchemeNorm]       = { gray3,   black,  gray2 },
     [SchemeSel]        = { gray4,   blue,   blue  },
-    [SchemeTitle]      = { white,   black,  black  }, // active window title
+    [SchemeTitle]      = { white,   black,  black  }, // 活动窗口的标题
     [TabSel]           = { blue,    gray2,  black },
     [TabNorm]          = { gray3,   black,  black },
     [SchemeTag]        = { gray3,   black,  black },
-    [SchemeTag1]       = { blue,    black,  black },
-    [SchemeTag2]       = { red,     black,  black },
+    [SchemeTag1]       = { green,   black,  black },
+    [SchemeTag2]       = { blue,    black,  black },
     [SchemeTag3]       = { orange,  black,  black },
-    [SchemeTag4]       = { green,   black,  black },
-    [SchemeTag5]       = { pink,    black,  black },
-    [SchemeLayout]     = { green,   black,  black },
+    [SchemeTag4]       = { red,     black,  black },
+    [SchemeTag5]       = { green,   black,  black },
+    [SchemeLayout]     = { pink,    black,  black },
     [SchemeBtnPrev]    = { green,   black,  black },
     [SchemeBtnNext]    = { yellow,  black,  black },
     [SchemeBtnClose]   = { red,     black,  black },
 };
 
-/* tagging */
-static char *tags[] = {"", "", "", "", ""};
+/* tty 1~5 :图标来自 https://www.nerdfonts.com/cheat-sheet */
+static char *tags[] = {"", "", "﬏", "", ""};
 
 static const char* eww[] = { "eww", "open" , "eww", NULL };
 
 static const Launcher launchers[] = {
-    /* command     name to display */
-    { eww,         "" },
+    /* 命令     要显示的名称 */
+    { eww,         "" },
 };
 
 static const int tagschemes[] = {
     SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5
 };
 
-static const unsigned int ulinepad      = 5; /* horizontal padding between the underline and tag */
-static const unsigned int ulinestroke   = 2; /* thickness / height of the underline */
-static const unsigned int ulinevoffset  = 0; /* how far above the bottom of the bar the line should appear */
-static const int ulineall               = 0; /* 1 to show underline on all tags, 0 for just the active ones */
+static const unsigned int ulinepad      = 5; /* 下滑线和标签之间的水平填充 */
+static const unsigned int ulinestroke   = 2; /* 下划线的厚度和高度 */
+static const unsigned int ulinevoffset  = 0; /* 这条线应该出现在条形底部上方多远 */
+static const int ulineall               = 0; /* 1 表示在所有标签上显示下划线，0 仅用于活动标签 */
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -87,20 +88,20 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const float mfact     = 0.50; /* 主区域元素大小 [0.05..0.95] */
+static const int nmaster     = 1;    /* 主用户数 */
+static const int resizehints = 0;    /* 1 表示在平铺调整中提供大小提示 */
+static const int lockfullscreen = 1; /* 1 将强制专注于全屏窗口 */
 
-#define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
+#define FORCE_VSPLIT 1  /* 窄网格布局: 强制两个客户端始终垂直分裂 */
 #include "functions.h"
 
 
 static const Layout layouts[] = {
-    /* symbol     arrange function */
-    { "[]=",      tile },    /* first entry is default */
-    { "[M]",      monocle },
-    { "[@]",      spiral },
+    /* 象征       排列功能 */
+    { "",        tile },    /* 第一个条目是默认的 */
+    { "",        monocle },
+    { "",        spiral },
     { "[\\]",     dwindle },
     { "H[]",      deck },
     { "TTT",      bstack },
@@ -108,14 +109,14 @@ static const Layout layouts[] = {
     { "HHH",      grid },
     { "###",      nrowgrid },
     { "---",      horizgrid },
-    { ":::",      gaplessgrid },
+    { "",        gaplessgrid },
     { "|M|",      centeredmaster },
     { ">M>",      centeredfloatingmaster },
-    { "><>",      NULL },    /* no layout function means floating behavior */
+    { "",        NULL },    /* 没有布局功能意味着是浮动的 */
     { NULL,       NULL },
 };
 
-/* key definitions */
+/* 关键定义 */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
@@ -123,68 +124,87 @@ static const Layout layouts[] = {
     { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+/* 以 dwm-5.0 之前的方式生成 shell 命令的助手 */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
+/* 所有命令 */
 
 static Key keys[] = {
-    /* modifier                         key         function        argument */
+    /* 修饰符                          key         function        argument */
 
-    // brightness and audio 
+    // 亮度和音频（补充：pacman -S pamixer acpilight & sudo gpasswd video -a $USER） 
     {0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
     {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
     {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
 
-    // screenshot fullscreen and cropped
-    {MODKEY|ControlMask,                XK_u,       spawn,
+    // 「常用」自由截图到剪贴板[Ctrl+Win+A][Win+U]（补充：pacman -S maim xclip）
+    { MODKEY,                           XK_u,       spawn,
         SHCMD("maim | xclip -selection clipboard -t image/png")},
-    {MODKEY,                            XK_u,       spawn,
+    { ControlMask|MODKEY,               XK_a,       spawn,
         SHCMD("maim --select | xclip -selection clipboard -t image/png")},
 
-    { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
+    // 使用 rofi 运行 drun 应用程序启动器[Win+C]（补充：pacman -S rofi）
+    { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun -theme $HOME/.config/chadwm/rofi/themes/nord.rasi") },
+    // 打开一个新终端[Win+回车],不想用 st 终端可以换别的，名字改下
     { MODKEY,                           XK_Return,  spawn,            SHCMD("st")},
 
-    // toggle stuff
+    // 切换东西
+    // 隐藏顶部 barner 再按一次重新显示[Win+B]
     { MODKEY,                           XK_b,       togglebar,      {0} },
+    // 取消顶部 barner 和下方主窗口之间的间隙，再按还原[Win+Ctrl+T]
     { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
+    // 取消两个窗口中间的缝隙，再按还原[Win+Shift+空格] 
     { MODKEY|ShiftMask,                 XK_space,   togglefloating, {0} },
+    // 「常用」活动窗口全屏显示，再按还原 [Win+F]（记忆：左手边有凸点的按键）
     { MODKEY,                           XK_f,       togglefullscr,  {0} },
-
+     
+    // 未知[Win+Ctrl+W]
     { MODKEY|ControlMask,               XK_w,       tabmode,        { -1 } },
+    // 「常用」光标窗口间顺时针切换[Win+J]（记忆：右手边有凸点的按键） 
     { MODKEY,                           XK_j,       focusstack,     {.i = +1 } },
+    // 「常用」光标窗口间逆时针切换[Win+K] 
     { MODKEY,                           XK_k,       focusstack,     {.i = -1 } },
+    // 窗口上下分栏布局[Win+I]
     { MODKEY,                           XK_i,       incnmaster,     {.i = +1 } },
+    // 窗口左右分栏布局[Win+D]
     { MODKEY,                           XK_d,       incnmaster,     {.i = -1 } },
 
-    // change m,cfact sizes 
+    // 改变 mfact 和 cfact 大小
+    // 右边窗口向左扩张[Win+H]
     { MODKEY,                           XK_h,       setmfact,       {.f = -0.05} },
+    // 右边窗口向右边收缩[Win+L]
     { MODKEY,                           XK_l,       setmfact,       {.f = +0.05} },
     { MODKEY|ShiftMask,                 XK_h,       setcfact,       {.f = +0.25} },
     { MODKEY|ShiftMask,                 XK_l,       setcfact,       {.f = -0.25} },
     { MODKEY|ShiftMask,                 XK_o,       setcfact,       {.f =  0.00} },
 
 
+    // 窗口逆时针调换位置（常用）[Win+Shift+J]（补充：不加 Shift 是光标轮调，加 Shift 是窗口轮调）
     { MODKEY|ShiftMask,                 XK_j,       movestack,      {.i = +1 } },
+    // 窗口顺时针调换位置[Win+Shift+K]
     { MODKEY|ShiftMask,                 XK_k,       movestack,      {.i = -1 } },
     { MODKEY|ShiftMask,                 XK_Return,  zoom,           {0} },
+    // 当前工作区和新工作区两个（barner 左边 5 个 tty）之间来回切换（常用）[Win+Tab]
     { MODKEY,                           XK_Tab,     view,           {0} },
 
-    // overall gaps
+    // 整体窗口边距扩大[Win+Ctrl+I]
     { MODKEY|ControlMask,               XK_i,       incrgaps,       {.i = +1 } },
+    // 整体窗口边距缩小[Win+Ctrl+D]
     { MODKEY|ControlMask,               XK_d,       incrgaps,       {.i = -1 } },
 
-    // inner gaps
+    // 窗口间内部间隙扩大[Win+Shift+I]
     { MODKEY|ShiftMask,                 XK_i,       incrigaps,      {.i = +1 } },
+    // 窗口间内部间隙缩小[Win+Ctrl+Shift+I]
     { MODKEY|ControlMask|ShiftMask,     XK_i,       incrigaps,      {.i = -1 } },
 
-    // outer gaps
+    // 窗口间外部间隙扩大[Win+Ctrl+O]
     { MODKEY|ControlMask,               XK_o,       incrogaps,      {.i = +1 } },
+    // 窗口间外部间隙扩大[Win+Ctrl+Shift+O]
     { MODKEY|ControlMask|ShiftMask,     XK_o,       incrogaps,      {.i = -1 } },
 
-    // inner+outer hori, vert gaps 
+    // 内+外 hori, 垂直间隙（死都不会碰它的） 
     { MODKEY|ControlMask,               XK_6,       incrihgaps,     {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_6,       incrihgaps,     {.i = -1 } },
     { MODKEY|ControlMask,               XK_7,       incrivgaps,     {.i = +1 } },
@@ -193,15 +213,21 @@ static Key keys[] = {
     { MODKEY|ControlMask|ShiftMask,     XK_8,       incrohgaps,     {.i = -1 } },
     { MODKEY|ControlMask,               XK_9,       incrovgaps,     {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_9,       incrovgaps,     {.i = -1 } },
-
+    // 如果你不小心点了上面的，这里可以还原默认间隙（有用）[Win+Ctrl+Shift+D]
     { MODKEY|ControlMask|ShiftMask,     XK_d,       defaultgaps,    {0} },
 
-    // layout
+    // [布局方案]
+    // [Win+T] 左1 右3 T 字型（默认布局）
     { MODKEY,                           XK_t,       setlayout,      {.v = &layouts[0]} },
+    // [Win+Shift+F] 主 1 且 barner 置底 
     { MODKEY|ShiftMask,                 XK_f,       setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                           XK_m,       setlayout,      {.v = &layouts[2]} },
-    { MODKEY|ControlMask,               XK_g,       setlayout,      {.v = &layouts[10]} },
-    { MODKEY|ControlMask|ShiftMask,     XK_t,       setlayout,      {.v = &layouts[13]} },
+    // [Win+G] 二分布局，裴波那契函数（推荐）
+    { MODKEY,                           XK_g,       setlayout,      {.v = &layouts[2]} },
+    // [Win+Ctrl+M] 四象限窗口分布布局（推荐）
+    { MODKEY,                           XK_m,       setlayout,      {.v = &layouts[10]} },
+    // [Win+Ctrl+T] 左上角小窗口置顶布局
+    { MODKEY|ControlMask,               XK_t,       setlayout,      {.v = &layouts[13]} },
+    // [Win+空格] 四象限窗口布局（推荐）
     { MODKEY,                           XK_space,   setlayout,      {0} },
     { MODKEY|ControlMask,               XK_comma,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,               XK_period,  cyclelayout,    {.i = +1 } },
@@ -212,22 +238,27 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_comma,   tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,                 XK_period,  tagmon,         {.i = +1 } },
 
-    // change border size
+    // 切换窗口边框大小
+    // [Win+Shift+减] 减小所有窗口边框大小
     { MODKEY|ShiftMask,                 XK_minus,   setborderpx,    {.i = -1 } },
+    // [Win+Shift+P] 扩大所有窗口边框大小
     { MODKEY|ShiftMask,                 XK_p,       setborderpx,    {.i = +1 } },
+    // [Win+Shift+W] 还原窗口边框大小（有用）
     { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
 
-    // kill dwm
+    // [Win+Ctrl+Q] 退出 dwm 界面，回到 tty or dm （推荐）
     { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh dwm") },
 
-    // kill window
+    // [Win+Q] 关闭当前活动窗口（推荐）
     { MODKEY,                           XK_q,       killclient,     {0} },
 
-    // restart
+    // 重新打开当前活动窗口
     { MODKEY|ShiftMask,                 XK_r,       restart,           {0} },
 
-    // hide & restore windows
+    // 隐藏 & 重新显示窗口
+    // [Win+E] 隐藏窗口
     { MODKEY,                           XK_e,       hidewin,        {0} },
+    // [Wine+Shift+E] 重新显示
     { MODKEY|ShiftMask,                 XK_e,       restorewin,     {0} },
 
     TAGKEYS(                            XK_1,                       0)
