@@ -25,7 +25,7 @@ static const int vertpadtab         = 35;
 static const int horizpadtabi       = 15;
 static const int horizpadtabo       = 15;
 static const int scalepreview       = 4;
-static const int tag_preview        = 0;        /* 1 启用, 0 关闭 */
+static const int tag_preview        = 1;        /* 状态栏窗口缩略图 1 启用, 0 关闭 */
 static const int colorfultag        = 1;        /* 0 表示对选定的非空标签使用方案 */
 
 #define ICONSIZE 19   /* 图标大小 */
@@ -42,7 +42,7 @@ static const char *colors[][3]      = {
     /*                     字色     背景色  边框 */
     [SchemeNorm]       = { gray3,   black,  gray2 },
     [SchemeSel]        = { gray4,   blue,   blue  },
-    [SchemeTitle]      = { white,   black,  black  }, // 活动窗口的标题
+    [SchemeTitle]      = { white,   black,  black }, // 活动窗口的标题
     [TabSel]           = { blue,    gray2,  black },
     [TabNorm]          = { gray3,   black,  black },
     [SchemeTag]        = { gray3,   black,  black },
@@ -58,7 +58,7 @@ static const char *colors[][3]      = {
 };
 
 /* tty 1~5 :图标来自 https://www.nerdfonts.com/cheat-sheet */
-static char *tags[] = {"", "", "﬏", "", ""};
+static char *tags[] = {"", "", "﬏", "", "", "", ""};
 
 static const char* eww[] = { "eww", "open" , "eww", NULL };
 
@@ -68,7 +68,7 @@ static const Launcher launchers[] = {
 };
 
 static const int tagschemes[] = {
-    SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5
+    SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag2, SchemeTag4, SchemeTag5
 };
 
 static const unsigned int ulinepad      = 5; /* 下滑线和标签之间的水平填充 */
@@ -141,12 +141,13 @@ static Key keys[] = {
 
     // 「常用」自由截图到剪贴板[Ctrl+Win+A][Win+U]（补充：pacman -S maim xclip）
     { MODKEY,                           XK_u,       spawn,
-        SHCMD("maim | xclip -selection clipboard -t image/png")},
+      SHCMD("maim | xclip -selection clipboard -t image/png")},
     { ControlMask|MODKEY,               XK_a,       spawn,
-        SHCMD("maim --select | xclip -selection clipboard -t image/png")},
+      SHCMD("maim --select | xclip -selection clipboard -t image/png")},
 
     // 使用 rofi 运行 drun 应用程序启动器[Win+C]（补充：pacman -S rofi）
-    { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun -theme $HOME/.config/chadwm/rofi/themes/nord.rasi") },
+    { MODKEY,                           XK_c,       spawn,          
+      SHCMD("rofi -show drun -theme $HOME/.config/chadwm/rofi/themes/nord.rasi") },
     // 打开一个新终端[Win+回车],不想用 st 终端可以换别的，名字改下
     { MODKEY,                           XK_Return,  spawn,            SHCMD("st")},
 
