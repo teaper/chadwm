@@ -273,8 +273,8 @@ static Key keys[] = {
     TAGKEYS(                            XK_9,                       8)
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* 按钮定义 */
+/* 点击可以是 ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin 或 ClkRootWin */
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
     { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
@@ -282,18 +282,16 @@ static Button buttons[] = {
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
     { ClkStatusText,        0,              Button2,        spawn,          SHCMD("st") },
 
-    /* Keep movemouse? */
+    /* 保持鼠标移动? */
     /* { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} }, */
 
-    /* placemouse options, choose which feels more natural:
-    *    0 - tiled position is relative to mouse cursor
-    *    1 - tiled position is relative to window center
-    *    2 - mouse pointer warps to window center
+    /* 鼠标选项，选择哪个更自然:
+    *    0 - 平铺位置相对于鼠标光标
+    *    1 - 平铺位置相对于窗口中心
+    *    2 - 鼠标指针弯曲到窗口中心
     *
-    * The moveorplace uses movemouse or placemouse depending on the floating state
-    * of the selected client. Set up individual keybindings for the two if you want
-    * to control these separately (i.e. to retain the feature to move a tiled window
-    * into a floating position).
+    * moveorplace 使用 movemouse 或 placemouse 取决于所选客户端的浮动状态。
+    * 如果您想要单独控制这两个功能（即保留将平铺窗口移动到浮动位置的功能），请为两者设置不同的键绑定。
     */
     { ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },

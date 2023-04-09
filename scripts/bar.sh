@@ -51,13 +51,13 @@ mem() {
 
 wlan() {
 	case "$(cat /sys/class/net/wl*/operstate 2>/dev/null)" in
-	up) printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^Connected" ;;
-	down) printf "^c$black^ ^b$red^ 󰤭 ^d^%s" " ^c$red^Disconnected" ;;
+	up) printf "^c$black^ ^b$blue^ 󰤨  ^d^%s" " ^c$blue^已连接" ;;
+	down) printf "^c$black^ ^b$red^ 󰤭  ^d^%s" " ^c$red^已断开" ;;
 	esac
 }
 
 clock() {
-	printf "^c$black^ ^b$darkblue^ 󱑆"
+	printf "^c$black^ ^b$darkblue^ 󱑆 "
 	printf "^c$black^ ^b$blue^ $(date '+%m/%d %H:%M') "
 }
 
