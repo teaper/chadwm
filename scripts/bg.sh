@@ -1,7 +1,7 @@
 #!/bin/bash
 while true 
 do 
-  num=$((RANDOM % 37 + 1))
+  num=$((RANDOM % 41 + 1))
   img="/home/teaper/.config/chadwm/scripts/bgimgs/Travel$num.png"
   feh --bg-fill "$img" 
   sleep 300 
