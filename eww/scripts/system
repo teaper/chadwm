@@ -5,12 +5,13 @@ pkgCount() {
 }
 
 pkgUpdates() {
-  updates=$(xbps-install -S -un | cut -d' ' -f2 | sort | uniq -c | xargs)
+  # updates=$(xbps-install -S -un | cut -d' ' -f2 | sort | uniq -c | xargs)
+  updates=$(checkupdates 2>/dev/null | wc -l)
 
   if [ -z "$updates" ]; then
-    echo "Fully Updated"
+    echo "Updated"
   else
-    echo " $updates""s"
+    echo " $updates"" updates"
   fi
 }
 

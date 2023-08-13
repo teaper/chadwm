@@ -14,7 +14,5 @@ xinput disable $(xinput | awk '/Touchpad/{print $0}' | awk '{print $6}' | awk -F
 ~/.config/chadwm/scripts/bg.sh &
 ~/.config/chadwm/scripts/bar.sh &
 
-#asus 显卡状态栏插件
-asusctltray &
 # eww 官方文档：https://elkowar.github.io/eww/eww.html
 while type dwm >/dev/null; do dwm && continue || break; done

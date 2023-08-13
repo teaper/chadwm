@@ -132,7 +132,7 @@ static const Layout layouts[] = {
 static Key keys[] = {
     /* 修饰符                          key         function        argument */
 
-    // 亮度和音频（补充：pacman -S pamixer acpilight & sudo gpasswd video -a $USER） 
+    // 亮度和音频（补充：pacman -S pamixer acpilight/xorg-xbacklight & sudo gpasswd video -a $USER） 
     {0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
     {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
     {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
