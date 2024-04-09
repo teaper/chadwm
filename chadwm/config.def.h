@@ -248,7 +248,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
 
     // [Win+Ctrl+Q] 退出 dwm 界面，回到 tty or dm （推荐）
-    { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh dwm") },
+    // { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh dwm") },
+    // 退出 lightdm 进入锁屏界面，不退出 dwm 及其他应用程序
+    { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("dm-tool lock") },
 
     // [Win+Q] 关闭当前活动窗口（推荐）
     { MODKEY,                           XK_q,       killclient,     {0} },
