@@ -58,7 +58,7 @@ static const char *colors[][3]      = {
 };
 
 /* tty 1~5 :图标来自 https://www.nerdfonts.com/cheat-sheet */
-static char *tags[] = {"", "", "﬏", "", "", "", ""};
+static char *tags[] = {"", "", "󰘐", "", "", "", ""};
 
 static const char* eww[] = { "eww", "open" , "eww", NULL };
 

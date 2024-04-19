@@ -12,8 +12,8 @@ udiskie &
 #禁用触摸板 xinput <disable / enable> id
 xinput disable $(xinput | awk '/Touchpad/{print $0}' | awk '{print $6}' | awk -F '=' '{print $2}')
 
-#~/.config/chadwm/scripts/bg.sh &
-~/.config/chadwm/scripts/bgv.sh &
+~/.config/chadwm/scripts/bg.sh &
+#~/.config/chadwm/scripts/bgv.sh &
 
 ~/.config/chadwm/scripts/bar.sh &
 
