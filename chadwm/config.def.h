@@ -132,10 +132,10 @@ static const Layout layouts[] = {
 static Key keys[] = {
     /* 修饰符                          key         function        argument */
 
-    // 亮度和音频（补充：pacman -S pamixer acpilight/xorg-xbacklight & sudo gpasswd video -a $USER） 
-    {0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
-    {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
-    {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
+    // 亮度和音频（补充：pacman -S alsa-utils alsa-plugins pipewire-alsa lib32-alsa-lib alsa-firmware xorg-xbacklight & sudo gpasswd video -a $USER） 
+    {0,                     XF86XK_AudioMute,       spawn,          SHCMD("amixer set Master toggle")},
+    {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("amixer set Master 5%+")},
+    {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("amixer set Master 5%-")},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
 

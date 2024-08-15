@@ -1,5 +1,5 @@
 #!/bin/sh
-xrdb merge ~/.Xresources 
+xrdb merge ~/.config/.Xresources
 xbacklight -set 30 &
 xset r rate 200 50 &
 picom &
@@ -12,10 +12,11 @@ udiskie &
 #禁用触摸板 xinput <disable / enable> id
 xinput disable $(xinput | awk '/Touchpad/{print $0}' | awk '{print $6}' | awk -F '=' '{print $2}')
 
-~/.config/chadwm/scripts/bg.sh &
-#~/.config/chadwm/scripts/bgv.sh &
 
 ~/.config/chadwm/scripts/bar.sh &
+
+~/.config/chadwm/scripts/bg.sh &
+#~/.config/chadwm/scripts/bgv.sh &
 
 # eww 官方文档：https://elkowar.github.io/eww/eww.html
 while type dwm >/dev/null; do dwm && continue || break; done
