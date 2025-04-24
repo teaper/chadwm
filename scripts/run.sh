@@ -15,8 +15,10 @@ xinput disable $(xinput | awk '/Touchpad/{print $0}' | awk '{print $6}' | awk -F
 
 ~/.config/chadwm/scripts/bar.sh &
 
-~/.config/chadwm/scripts/bg.sh &
-#~/.config/chadwm/scripts/bgv.sh &
+# ~/.config/chadwm/scripts/bg.sh &
+# ~/.config/chadwm/scripts/bgv.sh &
+# feh --bg-fill /home/teaper/.config/chadwm/scripts/bgimgs/Travel9.png
+feh --bg-fill /home/teaper/.config/chadwm/scripts/bgimgs/122770110_p0.png
 
 # eww 官方文档：https://elkowar.github.io/eww/eww.html
 while type dwm >/dev/null; do dwm && continue || break; done
