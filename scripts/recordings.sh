@@ -36,7 +36,7 @@ single_record() {
     if [ $? -eq 0 ]; then
         echo "[$(date +'%Y-%m-%d %H:%M:%S')] 录制完成，文件大小：$(du -h "$save_path" | awk '{print $1}')" >> $RECORD_ROOT/recordings.log
     else
-        echo "[$(date +'%Y-%m-%d %H:%M:%S')] 录制失败！请检查设备或权限。" >> $RECORD_ROOT/recordings.log
+        echo "[$(date +'%Y-%m-%d %H:%M:%S')] 录制中断，文件大小：$(du -h "$save_path" | awk '{print $1}')" >> $RECORD_ROOT/recordings.log
         return 1  # 返回错误码
     fi
 }
